@@ -29,7 +29,8 @@ environment:
   - TRANSMISSION_WEB_HOME=/opt/seedwatch
 ```
 
-4. Open `http://<your-host>:9091/transmission/web/` — done.
+4. Make sure the RPC is properly configured (see [Transmission settings](#transmission-settings) below)
+5. Open `http://<your-host>:9091/transmission/web/` — done.
 
 ---
 
@@ -50,6 +51,36 @@ scp -r dist/* user@yourserver:/opt/seedwatch/
 ```
 
 Then follow step 3 above to point Transmission to `/opt/seedwatch`.
+
+---
+
+## Transmission settings
+
+Seedwatch talks to Transmission via its RPC API. A few settings must be correct for it to work.
+
+Edit `settings.json` (stop Transmission before editing, or use the daemon's built-in config):
+
+```json
+{
+  "rpc-enabled": true,
+  "rpc-bind-address": "0.0.0.0",
+  "rpc-port": 9091,
+  "rpc-url": "/transmission/",
+  "rpc-whitelist-enabled": false,
+  "rpc-host-whitelist-enabled": false,
+  "rpc-authentication-required": false
+}
+```
+
+> **If you want to keep authentication enabled**, set `rpc-authentication-required: true` and provide `rpc-username` / `rpc-password`. Seedwatch will prompt for credentials on first load.
+
+> **`rpc-whitelist-enabled: false`** is required if you access Seedwatch from a browser on a different machine than the Transmission host. If you prefer to keep it enabled, add your client IPs to `rpc-whitelist`.
+
+> **`rpc-host-whitelist-enabled: false`** is required if you access via a domain name or reverse proxy. Otherwise add your domain to `rpc-host-whitelist`.
+
+**Location of `settings.json`:**
+- Linux (native): `~/.config/transmission-daemon/settings.json`
+- Docker: inside the mounted config volume (e.g. `/opt/transmission/config/settings.json`)
 
 ---
 
