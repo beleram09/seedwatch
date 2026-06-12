@@ -8,9 +8,20 @@ A modern web UI for [Transmission](https://transmissionbt.com/) with built-in **
 
 ### Option 1 — Download the latest release (recommended)
 
-1. Download the latest release from the [Releases page](https://github.com/beleram09/seedwatch/releases)
-2. Extract the archive to a folder on your server (e.g. `/opt/seedwatch`)
-3. Point Transmission to that folder:
+1. Download and extract the latest release to `/opt/seedwatch`:
+
+```bash
+mkdir -p /opt/seedwatch
+curl -L https://github.com/beleram09/seedwatch/releases/latest/download/seedwatch-v0.1.0.tar.gz | tar xz -C /opt/seedwatch
+```
+
+Or with wget:
+```bash
+mkdir -p /opt/seedwatch
+wget -qO- https://github.com/beleram09/seedwatch/releases/latest/download/seedwatch-v0.1.0.tar.gz | tar xz -C /opt/seedwatch
+```
+
+2. Point Transmission to that folder:
 
 **If you run Transmission directly:**
 ```bash
